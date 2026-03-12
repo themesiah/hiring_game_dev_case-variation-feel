@@ -1,5 +1,13 @@
 # hiring_game_dev_case-variation-feel
 
+## External libraries or assets used
+
+I will keep this section first and will be updating with the added libraries or asset packs.
+
+- **DoTween**: For general feedback of things with an start and an end. (Inside folder Plugins/Demigiant)
+- [**Free quick effects vol 1**](https://assetstore.unity.com/packages/vfx/particles/free-quick-effects-vol-1-304424): For various effects. I might take effects and slightly modify them to work as we need. (Inside folder GabrielAguiarProductions)
+- [**Cartoon FX Remaster free](https://assetstore.unity.com/packages/vfx/particles/cartoon-fx-remaster-free-109565): For various effects. I might take effects and slightly modify them to work as we need. (Inside folder JMO Assets)
+
 ## Thought process
 
 Before even starting changing things, I checked the project and made a list of elements that would be cool to change, improve or create from scratch.
@@ -63,3 +71,13 @@ There was another issue with the delay idea. What happens during the delay? If t
 What i actually did was increasing the speed of the attacks, removing transition time between idle and attacks (because i noticed that attacks actually started from the idle position) and muting the damage animations. This doesn't mean that i won't add damage feedback, it just means that i prefer to add it on some other way that doesn't collide with the attack animations. Because of that, the hit confirmations will most probably be the next improvement i make.
 
 **Result**: Attack animations are now faster and snappier, and will make future feedback easier to implement and appreciate. Damage animations are now muted.
+
+## Hit VFX feedback
+
+**Duration**: 15 minutes
+
+**What i did**: First, I selected two "hit" vfx from some free VFX pack i found. I then put the sword hit vfx on the enemies and the enemy hit vfx on the player (because the player is hit by the enemies and the enemies are hit by the sword). I added a reference to the particle systems on the view, and when being hit (already done thanks to the "previous state" trick) I play the particle system. Note that this is a naive approach and i know it. If we expect different hit effects from different enemies or weapons this way of doing things does not work. However, this is fast and gives good results when prototyping.
+
+If needed, I guess enemies should get the weapon from the weapon service and spawn a particle system offered by the weapon. For the player is a little more difficult, because we would need the exact enemy that hit her, and spawn a particle system depending on that. Anyway, I think this is good enough for now.
+
+**Result**: At the time of receiving damage, player and enemies play a particle system hit effect.

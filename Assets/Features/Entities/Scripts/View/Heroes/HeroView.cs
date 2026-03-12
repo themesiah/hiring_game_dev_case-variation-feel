@@ -16,6 +16,7 @@ namespace Game.GamePlay.Heroes
 		[SerializeField] private Animator animator;
 		[SerializeField] private float rotationSpeed = 10f;
 		[SerializeField] private Transform weaponSlot;
+		[SerializeField] private ParticleSystem damageEffect;
 
 		private JoystickInputService _joystickInputService;
 		private HeroController _heroController;
@@ -97,6 +98,7 @@ namespace Game.GamePlay.Heroes
 						// If the hero is dead, we can reset the triggers immediately to avoid any unwanted animation states.
 						ResetAnimatorTriggers();
 					}
+					damageEffect.Play();
 				}
 
 

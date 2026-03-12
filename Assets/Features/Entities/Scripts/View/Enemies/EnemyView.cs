@@ -15,6 +15,7 @@ namespace Game.GamePlay.Enemies
 
 		[SerializeField] private float rotationSpeed = 10f;
 		[SerializeField] private Animator animator;
+		[SerializeField] private ParticleSystem damageEffect;
 
 		private HeroController _heroController;
 		private EnemyState? _lastEnemyState = null;
@@ -31,8 +32,6 @@ namespace Game.GamePlay.Enemies
 
 		public void OnEnemyStateChanged(EnemyState enemyState)
 		{
-
-
 			// Always update position from the runtime state
 			transform.position = enemyState.Position;
 
@@ -49,6 +48,7 @@ namespace Game.GamePlay.Enemies
 				else if (enemyState.Health < previousState.Health)
 				{
 					animator.SetTrigger(DamageHash);
+					damageEffect.Play();
 				}
 
 				animator.SetBool(DeadHash, enemyState.IsDead);
