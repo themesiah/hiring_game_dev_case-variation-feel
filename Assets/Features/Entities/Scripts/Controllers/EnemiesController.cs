@@ -13,8 +13,8 @@ namespace Game.GamePlay.Enemies
 
 		// Events
 		public event Action<EnemyState> OnEnemySpawned;
-		public event Action<int> OnEnemyRemoved;
-		public event Action<EnemyState> OnEnemyPositionChanged;
+		public event Action<int, float> OnEnemyRemoved;
+		public event Action<EnemyState> OnEnemyUpdated;
 
 		// State
 		private Dictionary<int, EnemyState> _enemies;
@@ -51,15 +51,15 @@ namespace Game.GamePlay.Enemies
 			List<int> enemyIds = new List<int>(_enemies.Keys);
 			foreach (int enemyId in enemyIds)
 			{
-				RemoveEnemy(enemyId);
+				RemoveEnemy(enemyId, 0f);
 			}
 		}
 
-		public void RemoveEnemy(int enemyId)
+		public void RemoveEnemy(int enemyId, float timeToDisappear)
 		{
 			if (_enemies.Remove(enemyId))
 			{
-				OnEnemyRemoved?.Invoke(enemyId);
+				OnEnemyRemoved?.Invoke(enemyId, timeToDisappear);
 			}
 		}
 
@@ -71,15 +71,17 @@ namespace Game.GamePlay.Enemies
 
 			Debug.Log($"Attacked enemy id°{enemyState.Id}. Health : {enemyState.Health} -> {newHealth}");
 
+			EnemyState updatedEnemy = new EnemyState(enemyState.Id, enemyState.Position, newHealth, enemyState.Config);
 			if (newHealth <= 0)
 			{
 				Debug.Log($"Enemy id°{enemyState.Id} is dead. Removing it.");
-				RemoveEnemy(enemyState.Id);
+				OnEnemyUpdated?.Invoke(updatedEnemy);
+				RemoveEnemy(enemyState.Id, updatedEnemy.Config.TimeToDisappear);
 			}
 			else
 			{
-				EnemyState updatedEnemy = new EnemyState(enemyState.Id, enemyState.Position, newHealth, enemyState.Config);
 				_enemies[enemyState.Id] = updatedEnemy;
+				OnEnemyUpdated?.Invoke(updatedEnemy);
 			}
 		}
 
@@ -135,6 +137,7 @@ namespace Game.GamePlay.Enemies
 				{
 					int enemyId = enemiesToUpdate[i];
 					if (!_enemies.TryGetValue(enemyId, out EnemyState enemy)) continue;
+					if (enemy.IsDead) continue; // Don't update dead enemies
 
 					UpdateEnemy(enemy);
 				}
@@ -155,7 +158,7 @@ namespace Game.GamePlay.Enemies
 
 				EnemyState updatedEnemy = new EnemyState(enemy.Id, newPosition, enemy.Health, enemy.Config, enemy.LastAttackTime);
 				_enemies[enemy.Id] = updatedEnemy;
-				OnEnemyPositionChanged?.Invoke(updatedEnemy);
+				OnEnemyUpdated?.Invoke(updatedEnemy);
 			}
 			else
 			{
@@ -165,6 +168,7 @@ namespace Game.GamePlay.Enemies
 
 					EnemyState updatedEnemy = new EnemyState(enemy.Id, enemy.Position, enemy.Health, enemy.Config, Time.time);
 					_enemies[enemy.Id] = updatedEnemy;
+					OnEnemyUpdated?.Invoke(updatedEnemy);
 				}
 			}
 		}

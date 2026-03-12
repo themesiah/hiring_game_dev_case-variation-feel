@@ -12,6 +12,7 @@ namespace Game.GamePlay.Enemies
 		[SerializeField] private int attackDamage;
 		[SerializeField] private float attackRange;
 		[SerializeField] private EnemyView prefab;
+		[SerializeField] private float timeToDisappear;
 
 		public string Id => id;
 		public int InitialHealth => initialHealth;
@@ -20,5 +21,6 @@ namespace Game.GamePlay.Enemies
 		public int AttackDamage => attackDamage;
 		public float AttackRange => attackRange;
 		public EnemyView Prefab => prefab;
+		public float TimeToDisappear => timeToDisappear;
 	}
 }

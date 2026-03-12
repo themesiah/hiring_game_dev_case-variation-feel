@@ -31,3 +31,15 @@ I will then log in this readme each feature I added, how i added and how much ti
 **What i did**: Using hero view, which already had a reference to the hero animator, i added hashes for Damage, Attack and Dead parameters. I added a "last hero state" variable on the hero view to check the change between the last and current state (as i saw that the event is called each time anything from the hero changes). So it attacks if the last attacking time is greater, gets damaged if the health is lower, and is set as dead if the hero state is considered dead. "Dead" is a state coming from "Any State" and don't return to any other state.
 
 **Result**: Player moves, attacks, gets damaged and dies correctly. Attack is probably doing damage at the start of the animation, but will fix it later.
+
+**Update**: While doing enemy animations I noticed that the game reset doesn't spawn the player again. So i fixed the animator to transition from dead to idle.
+
+## Enemy animations
+
+**Duration**: 23 minutes
+
+**What i did**: Same logic as with the player. However, as enemies are treated as a container of enemies and didn't have callbacks for each state update, i did a bit of refactor to support that. After the refactor, logic was the same as with the hero: save the last state, compare states, change animator depending on the changes.
+
+I also was supposed to improve the death animation making enemies disappear after a time, instead of disappearing instantly, but i found the easy way and did it now. Enemies are destroyed after a second (on the enemy config file can be changed) and they do not participate in enemy loops (they are out of the list and also check if an enemy is dead before updating it).
+
+**Result**: Enemies move, stay, attack and die correctly. Dead enemies stay there for a second before disappearing.

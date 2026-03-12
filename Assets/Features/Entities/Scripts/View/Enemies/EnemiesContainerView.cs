@@ -22,7 +22,7 @@ namespace Game.GamePlay.Enemies
 
 			_enemiesController.OnEnemySpawned += OnEnemySpawned;
 			_enemiesController.OnEnemyRemoved += OnEnemyRemoved;
-			_enemiesController.OnEnemyPositionChanged += OnEnemyPositionChanged;
+			_enemiesController.OnEnemyUpdated += OnEnemyUpdated;
 		}
 
 		private void OnEnemySpawned(EnemyState enemyState)
@@ -32,19 +32,30 @@ namespace Game.GamePlay.Enemies
 			_enemyViews[enemyState.Id] = enemyView;
 		}
 
-		private void OnEnemyRemoved(int enemyId)
+		private void OnEnemyRemoved(int enemyId, float timeToDestroy)
 		{
 			if (_enemyViews.Remove(enemyId, out EnemyView enemyView))
 			{
-				Destroy(enemyView.gameObject);
+				if (timeToDestroy > 0f)
+				{
+					// Destroy after 1 second.
+					// I feel this is the safest way for fast development because it is managed by unity,
+					// and won't suffer by async shenanigans.
+					Destroy(enemyView.gameObject, timeToDestroy);
+				}
+				else
+				{
+					// If the enemy is removed due to a reset, we can destroy it immediately without waiting for the death animation.
+					Destroy(enemyView.gameObject);
+				}
 			}
 		}
 
-		private void OnEnemyPositionChanged(EnemyState enemyState)
+		private void OnEnemyUpdated(EnemyState enemyState)
 		{
 			if (_enemyViews.TryGetValue(enemyState.Id, out EnemyView enemyView))
 			{
-				enemyView.transform.position = enemyState.Position;
+				enemyView.OnEnemyStateChanged(enemyState);
 			}
 		}
 
@@ -55,7 +66,7 @@ namespace Game.GamePlay.Enemies
 			{
 				_enemiesController.OnEnemySpawned -= OnEnemySpawned;
 				_enemiesController.OnEnemyRemoved -= OnEnemyRemoved;
-				_enemiesController.OnEnemyPositionChanged -= OnEnemyPositionChanged;
+				_enemiesController.OnEnemyUpdated -= OnEnemyUpdated;
 			}
 		}
 	}

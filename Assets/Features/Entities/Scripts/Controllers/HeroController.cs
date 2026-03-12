@@ -114,6 +114,8 @@ namespace Game.GamePlay.Heroes
 
 			foreach (EnemyState enemy in _enemiesController.Enemies.Values)
 			{
+				// Don't try to find dead enemies
+				if (enemy.IsDead) continue;
 				float distance = Vector3.Distance(_currentState.Position, enemy.Position);
 				if (distance < closestDistance)
 				{
