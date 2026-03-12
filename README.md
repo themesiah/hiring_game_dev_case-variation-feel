@@ -14,6 +14,7 @@ Also, the order can be pretty subjective. There are some obvious improvements th
 - **Hit confirmations**. Even if an animation shows the sword swinging or the enemy attacking, it is important to know when the actual damage happened. I think at least a VFX, model color change (flash white when dealt damage for example) and maybe damage numbers might be ok. All of them together should be cool, but might not implement the model color change depending on the shader setup (will explain more later).
 - Enemies automatically disappear (game object destroyed, probably) when dying. I will make it so they die after a few seconds, so **the death animation can play and be seen** (potential bug point, i will make sure that they are not targeteable when dead!).
 - Some **cool effect of the sword** when swinging would be good, even before it hits.
+- *update after starting* A small and fast improvement would be adding some dust cloud behind the player when moving. Should be super easy, and moving is literally the only thing that the player can do (besides not doing nothing and auto attacking, of course), so giving it some feedback should be important.
 - **Enemy spawn**. They can appear from above, materialize from transparent to fully opaque, or a VFX with a "poof" and a cloud of dust and they appear from inside, or whatever. Might try the last one as it seems cute.
 - **Screen shake**! Easy and looks good if done moderately. Will probably add it for when the player receives damage. Other option is adding it to when the enemies receive damage, but not both. I prefer when the player receives damage as it is easy to think of the shake as something bad (some immersion).
 - At this point we already have something indicating which enemy you are attacking. A next step would be a subtle **circle indicating the range of the player**. 
@@ -36,10 +37,12 @@ I will then log in this readme each feature I added, how i added and how much ti
 
 ## Enemy animations
 
-**Duration**: 23 minutes
+**Duration**: 25 minutes
 
 **What i did**: Same logic as with the player. However, as enemies are treated as a container of enemies and didn't have callbacks for each state update, i did a bit of refactor to support that. After the refactor, logic was the same as with the hero: save the last state, compare states, change animator depending on the changes.
 
 I also was supposed to improve the death animation making enemies disappear after a time, instead of disappearing instantly, but i found the easy way and did it now. Enemies are destroyed after a second (on the enemy config file can be changed) and they do not participate in enemy loops (they are out of the list and also check if an enemy is dead before updating it).
 
 **Result**: Enemies move, stay, attack and die correctly. Dead enemies stay there for a second before disappearing.
+
+**Update**: Added time to disappear to enemy config scriptable object.
