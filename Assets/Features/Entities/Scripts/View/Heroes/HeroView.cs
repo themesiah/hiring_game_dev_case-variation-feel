@@ -43,6 +43,8 @@ namespace Game.GamePlay.Heroes
 			OnJoystickStateChanged(_joystickInputService.CurrentState);
 			OnHeroStateChanged(_heroController.CurrentState);
 			SpawnCurrentWeapon();
+
+			_lastHeroState = _heroController.CurrentState;
 		}
 
 		private void OnDestroy()
@@ -90,6 +92,11 @@ namespace Game.GamePlay.Heroes
 				else if (heroState.Health < previousState.Health)
 				{
 					animator.SetTrigger(DamageHash);
+					if (heroState.IsDead)
+					{
+						// If the hero is dead, we can reset the triggers immediately to avoid any unwanted animation states.
+						ResetAnimatorTriggers();
+					}
 				}
 
 
@@ -144,6 +151,13 @@ namespace Game.GamePlay.Heroes
 			_currentWeaponView = Instantiate(_weaponsService.CurrentWeapon.Prefab, parent);
 			_currentWeaponView.transform.localPosition = Vector3.zero;
 			_currentWeaponView.transform.localRotation = Quaternion.identity;
+		}
+
+
+		private void ResetAnimatorTriggers()
+		{
+			animator.ResetTrigger(AttackHash);
+			animator.ResetTrigger(DamageHash);
 		}
 	}
 }

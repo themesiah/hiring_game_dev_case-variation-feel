@@ -46,3 +46,20 @@ I also was supposed to improve the death animation making enemies disappear afte
 **Result**: Enemies move, stay, attack and die correctly. Dead enemies stay there for a second before disappearing.
 
 **Update**: Added time to disappear to enemy config scriptable object.
+
+## Better animation timing
+
+**Duration**: 15 minutes
+
+**Previous bugfixing**: Noticed that the hero state change event was not being called when hitting enemies and sometimes it didn't attack when needed, so i fixed it. At this point i noticed that i could have as well put this logic on the update (as the event is being called a lot) but it would be not a performance issue for now.
+
+**What i did**: My first idea was to put a delay between the start of the animation and the actual damage from the player and from the enemies, so the actual damage was done at the impact point. But then I noticed two things:
+
+1. You can not have the damage and attack animation at the same time, but attacking and receiving damage happened at the same time a lot.
+2. Attack animations were a little slow, and considering that the damage happens instantly, i thought that they should be faster.
+
+There was another issue with the delay idea. What happens during the delay? If the player moves and is far from the enemy, should Alice damage the enemy anyway? Or maybe she shouldn't be able to move? Those questions could easily be out of the scope for this assignment, so i decided to go an easier route.
+
+What i actually did was increasing the speed of the attacks, removing transition time between idle and attacks (because i noticed that attacks actually started from the idle position) and muting the damage animations. This doesn't mean that i won't add damage feedback, it just means that i prefer to add it on some other way that doesn't collide with the attack animations. Because of that, the hit confirmations will most probably be the next improvement i make.
+
+**Result**: Attack animations are now faster and snappier, and will make future feedback easier to implement and appreciate. Damage animations are now muted.

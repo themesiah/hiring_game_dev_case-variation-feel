@@ -102,6 +102,7 @@ namespace Game.GamePlay.Heroes
 			{
 				_enemiesController.AttackEnemy(closestEnemy, _weaponsService.CurrentWeapon.Damage);
 				_currentState = new HeroState(_currentState.Position, _currentState.Health, Time.time);
+				OnStateChanged?.Invoke(_currentState);
 			}
 		}
 
