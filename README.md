@@ -23,3 +23,11 @@ Also, the order can be pretty subjective. There are some obvious improvements th
 After checking the list i don't think i will be able to implement all, but i will follow the list order, will change it if i find something in the game more difficult to read than i though, and will do all i can.
 
 I will then log in this readme each feature I added, how i added and how much time it took to implement it.
+
+## Player animations
+
+**Duration**: 14 minutes
+
+**What i did**: Using hero view, which already had a reference to the hero animator, i added hashes for Damage, Attack and Dead parameters. I added a "last hero state" variable on the hero view to check the change between the last and current state (as i saw that the event is called each time anything from the hero changes). So it attacks if the last attacking time is greater, gets damaged if the health is lower, and is set as dead if the hero state is considered dead. "Dead" is a state coming from "Any State" and don't return to any other state.
+
+**Result**: Player moves, attacks, gets damaged and dies correctly. Attack is probably doing damage at the start of the animation, but will fix it later.

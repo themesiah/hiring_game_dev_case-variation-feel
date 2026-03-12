@@ -9,6 +9,9 @@ namespace Game.GamePlay.Heroes
 	public class HeroView : MonoBehaviour
 	{
 		private static readonly int SpeedHash = Animator.StringToHash("Speed");
+		private static readonly int DeadHash = Animator.StringToHash("Dead");
+		private static readonly int AttackHash = Animator.StringToHash("Attack");
+		private static readonly int DamageHash = Animator.StringToHash("Damage");
 
 		[SerializeField] private Animator animator;
 		[SerializeField] private float rotationSpeed = 10f;
@@ -19,6 +22,8 @@ namespace Game.GamePlay.Heroes
 		private WeaponsService _weaponsService;
 		private Vector2 _currentMovementInput;
 		private WeaponView _currentWeaponView;
+
+		private HeroState? _lastHeroState = null;
 
 		private void Start()
 		{
@@ -70,6 +75,28 @@ namespace Game.GamePlay.Heroes
 		private void OnHeroStateChanged(HeroState heroState)
 		{
 			transform.position = heroState.Position;
+
+			// Using the last hero state to determine animation triggers
+			// Setting them here, because even if UpdateAnimator is called like that,
+			// it actually updates the animator only for the movement. Might need some refactor.
+			if (_lastHeroState.HasValue)
+			{
+				HeroState previousState = _lastHeroState.Value;
+
+				if (heroState.LastAttackTime > previousState.LastAttackTime)
+				{
+					animator.SetTrigger(AttackHash);
+				}
+				else if (heroState.Health < previousState.Health)
+				{
+					animator.SetTrigger(DamageHash);
+				}
+
+
+				animator.SetBool("Dead", heroState.IsDead);
+			}
+
+			_lastHeroState = heroState;
 		}
 
 		private void Update()
@@ -85,11 +112,14 @@ namespace Game.GamePlay.Heroes
 		private void UpdateAnimator()
 		{
 			if (animator == null) return;
-			if (_heroController is { CurrentState: { IsDead: true } })
-			{
-				animator.SetFloat(SpeedHash, 0f);
-				return;
-			}
+
+			// Commenting this because death state will be exclusive with other states.
+			// Speed parameter will be irrelevant.
+			// if (_heroController is { CurrentState: { IsDead: true } })
+			// {
+			// 	animator.SetFloat(SpeedHash, 0f);
+			// 	return;
+			// }
 
 			float speed = _currentMovementInput.magnitude;
 			animator.SetFloat(SpeedHash, speed);
