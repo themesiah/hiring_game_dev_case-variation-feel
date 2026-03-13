@@ -14,6 +14,12 @@ I will keep this section first and will be updating with the added libraries or 
 - When an enemy spawn, it is sometimes attacked by the player like it was close, even if it spawns at 10 meters from the player.
 Not sure why this happens, but you can sometimes see the player doing the attack animation in the air. This happens even with the initial project. (FIXED: It was a race condition that made the enemies start spawning before the container view subscribed to the OnEnemySpawned event, so it didn't instantiate any view. I moved the delay on the loop to the start, so it had an starting delay before spawning the first enemy. Not ideal, it would need a new entry point, but i didn't want to change the architecture right now for this)
 
+## About task times
+
+For each task, I indicated the duration, or how much time did it take to implement. I want you to note that this time does not include the time taken writing this documentation, and some times might look higher if we count choosing assets or deciding between a feature or another.
+
+I write this to be completely fair on the time it took for me to do each thing. The times you see in this document are counted from starting the implementation of the feature to the end of the implementation, after being tested and fixed if needed.
+
 ## Thought process
 
 Before even starting changing things, I checked the project and made a list of elements that would be cool to change, improve or create from scratch.
