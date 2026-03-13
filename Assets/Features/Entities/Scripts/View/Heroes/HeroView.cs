@@ -40,6 +40,7 @@ namespace Game.GamePlay.Heroes
 			_joystickInputService.OnStateChanged += OnJoystickStateChanged;
 			_heroController.OnStateChanged += OnHeroStateChanged;
 			_weaponsService.OnWeaponChanged += OnWeaponChanged;
+			_heroController.OnHeroRestarted += OnHeroRestarted;
 
 			OnJoystickStateChanged(_joystickInputService.CurrentState);
 			OnHeroStateChanged(_heroController.CurrentState);
@@ -58,6 +59,7 @@ namespace Game.GamePlay.Heroes
 			if (_heroController != null)
 			{
 				_heroController.OnStateChanged -= OnHeroStateChanged;
+				_heroController.OnHeroRestarted -= OnHeroRestarted;
 			}
 			if (_weaponsService != null)
 			{
@@ -97,11 +99,6 @@ namespace Game.GamePlay.Heroes
 				else if (heroState.Health < previousState.Health)
 				{
 					animator.SetTrigger(DamageHash);
-					if (heroState.IsDead)
-					{
-						// If the hero is dead, we can reset the triggers immediately to avoid any unwanted animation states.
-						ResetAnimatorTriggers();
-					}
 					damageEffect.Play();
 				}
 
@@ -164,6 +161,12 @@ namespace Game.GamePlay.Heroes
 		{
 			animator.ResetTrigger(AttackHash);
 			animator.ResetTrigger(DamageHash);
+		}
+
+		private void OnHeroRestarted()
+		{
+			ResetAnimatorTriggers();
+			damageEffect.Stop();
 		}
 	}
 }

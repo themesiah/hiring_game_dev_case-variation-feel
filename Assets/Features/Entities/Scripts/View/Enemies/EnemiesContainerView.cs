@@ -63,7 +63,6 @@ namespace Game.GamePlay.Enemies
 		private void OnClosestEnemyChanged(int lastClosestEnemy, int newClosestEnemy)
 		{
 			// Handle the change in closest enemy
-			Debug.Log($"Closest enemy changed from {lastClosestEnemy} to {newClosestEnemy}");
 			if (_enemyViews.TryGetValue(lastClosestEnemy, out EnemyView lastClosestEnemyView))
 				lastClosestEnemyView.Outline.enabled = false;
 			if (_enemyViews.TryGetValue(newClosestEnemy, out EnemyView newClosestEnemyView))

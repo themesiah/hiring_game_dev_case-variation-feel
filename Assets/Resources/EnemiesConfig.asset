@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EnemiesConfig
   m_EditorClassIdentifier: 
   spawnInterval: 2
-  spawnRadius: 10
+  spawnRadius: 20
   maxEnemies: 20
   enemies:
   - {fileID: 11400000, guid: be561b41b0b37406281685f0daceaa81, type: 2}

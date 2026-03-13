@@ -6,7 +6,7 @@ I will keep this section first and will be updating with the added libraries or 
 
 - **DoTween**: For general feedback of things with an start and an end. (Inside folder Plugins/Demigiant)
 - [**Free quick effects vol 1**](https://assetstore.unity.com/packages/vfx/particles/free-quick-effects-vol-1-304424): For various effects. I might take effects and slightly modify them to work as we need. (Inside folder GabrielAguiarProductions)
-- [**Cartoon FX Remaster free](https://assetstore.unity.com/packages/vfx/particles/cartoon-fx-remaster-free-109565): For various effects. I might take effects and slightly modify them to work as we need. (Inside folder JMO Assets)
+- [**Cartoon FX Remaster free**](https://assetstore.unity.com/packages/vfx/particles/cartoon-fx-remaster-free-109565): For various effects. I might take effects and slightly modify them to work as we need. (Inside folder JMO Assets)
 - [**Quick Outline**](https://assetstore.unity.com/packages/tools/particles-effects/quick-outline-115488): To show which enemy is being currently targeted. (Inside Enemies folder)
 - [**Epic Toon FX**](https://assetstore.unity.com/packages/package/143691): For the smoke trail when walking. (Inside Epic Toon FX folder)
 
@@ -165,4 +165,42 @@ That's why i created a "WeaponController", which just wraps the Config and has a
 
 There should be considerations about this if Alice could move in other ways (teleport, being pushed...). But hey, it works fine like this.
 
+**Note**: Well, it actually happens when restarting. Minor bug for which i don't have more time.
+
 **Result**: A smoke trail appears on the ground while moving.
+
+## What i didn't do
+
+Well, i reached a point on which i would exceed the expected time for this task, and i think i got the most important things, plus a few extras. I will tweak a little the numbers of the game now, so expect to reach that 4 hours deadline with that if i didn't already.
+
+One thing that i expected doing and ended not doing was timing the hit feedback (for enemies and player) to the point of the swing that would have done the hit. I didn't. What i did was to speed up the attack animations (around double speed) to make it feel more instant, as it actually is. After doing that and see the rest of feedback added, timing the hits perfectly don't seem that important anymore.
+
+I did use the "Damage" animations for both player and enemies, but ended deactivating them, because the attack animations felt more important, and they couldn't be played at the same time. That's why i chose other different feedback for hit confirmation (vfx and hit numbers). I would've loved to add camera shake when receiving damage too but well, priorities are priorities.
+
+What i didn't was creating any VFX myself (all are from packages) nor any shader. I wanted to create a shader to do some hit feedback (changing colors when hit) for the player, but when there are lots of enemies, you get hit too much. Consider a shader that makes you completely red for an instant when receiving damage. At some point, you would be red more time than not. Might have worked with very small times, like a single or two frames of red color, but it was also more time consuming than other feedback i did. Would have been cool just to show that i can do shaders too.
+
+Enemy health bars didn't really matter after all, so i don't mind not having done them. An effect for the enemy spawning would've been good, but just half of the time. That's because half of the time you don't even see where enemies spawn (playing this game as a mobile in portrait orientation, which felt more natural). If the game was expected to be played with tablets, less zoom... or other consideration that made enemy spawn more visible, it would've been more prioritary for me.
+
+Then we have the player range. After implementing those features i will be balancing a little the game (tweaking some speed, damage, health... numbers). Maybe after that the player range would've made sense, but it didn't right now. Enemies are so fast, you always have an enemy in range.
+
+And lastly audio. Audio would've felt so good, but requires more time to be done right.
+
+## Tweaks
+
+First of all, what i'm not changing are enemy health and sword damage. With currently a single enemy, they both do the same (increasing or reducing hits needed to kill an enemy) and i think that two hits per enemy is ok right now.
+
+Then, what the game lacks the most in my opinion is making player action count. The mechanic of attacking only while not moving is pretty rigid, and makes balancing difficult. If you stop, you get hit. If you then add that the enemies are faster than you, it makes it impossible to play well. You can just stand there and will be even better than moving.
+
+So my changes and why those are the following:
+
+- Enemies move slower and player moves faster, to the point that the player is faster than the enemies (so flee and kite is an option)
+- Enemies spawn far away. I didn't do the spawn feedback, and this way you don't see them appear. As the spawn rate is which will drive the frequency to see them, it is safe enough in design terms.
+- Greatsword has bigger range. This way you can kill enemies from a safe distance, making the game mainly risk/reward with stopping to attack and fleeing.
+
+## Future work
+
+Besides the already talked audio, i think the game will benefit from adding more enemies and weapons. Weapons like a bow with a high range but high cooldown, enemies that vary in speed and the ability to swap weapons could be cool.
+
+I also noticed while doing the last playtests that there isn't any way to measure how good is the player. A points counter would've been good too, and maybe would've been prioritary, but i didn't think about that until late. It's true too that after adding all features i did tweak some things, and after those tweaks a few more features are "unlocked" to be developed, so i think there just wasn't enough time.
+
+Also a custom toon shader and a little tweak to the game illumination would do wonders. Again, not enough time for all.
