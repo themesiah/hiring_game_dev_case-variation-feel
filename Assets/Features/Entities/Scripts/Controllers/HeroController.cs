@@ -25,6 +25,7 @@ namespace Game.GamePlay.Heroes
 		// Events
 		public event Action<HeroState> OnStateChanged;
 		public event Action<int> OnHeroDamaged;
+		public event Action OnHeroRestarted;
 
 		public UniTask<bool> Initialize(EnemiesController enemiesController, JoystickInputService joystickInputService, WeaponsService weaponsService)
 		{
@@ -60,6 +61,7 @@ namespace Game.GamePlay.Heroes
 		{
 			_currentState = new HeroState(Vector3.zero, HeroConfig.Instance.InitialHealth, 0f);
 			OnStateChanged?.Invoke(_currentState);
+			OnHeroRestarted?.Invoke();
 		}
 
 		public UniTask Reset()

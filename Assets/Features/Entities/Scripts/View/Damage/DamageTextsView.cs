@@ -31,8 +31,6 @@ namespace Game.GamePlay
         private HeroController _heroController;
         private EnemiesController _enemiesController;
 
-        private HeroState? _lastHeroState = null;
-
         private void Start()
         {
             ServicesLocator.Instance.OnAllServicesInitialized += OnServicesInitialized;
@@ -58,8 +56,6 @@ namespace Game.GamePlay
 
             _heroController.OnHeroDamaged += OnHeroDamaged;
             _enemiesController.OnEnemyDamaged += OnEnemyDamaged;
-
-            _lastHeroState = _heroController.CurrentState;
         }
 
         private void OnHeroDamaged(int damage)

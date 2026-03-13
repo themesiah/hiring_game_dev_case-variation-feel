@@ -102,3 +102,16 @@ DamageTextsView gets the Hero and Enemies services, hears for the "damaged" even
 This had a lot of thought on optimization. My first idea was to put a world space canvas on each entity and put the damage number there, but if there is a lot of enemies, there will be a lot of canvases, and that could be a performance issue. Or at least, doing it with a single canvas didn't forbid me of anything i wanted to do, so it was directly a better solution. I also made a pool for the texts to avoid garbage collection instantiating and destroying them. Cool, right?
 
 **Result**: Whenever an entity takes damage, a small damage number pops up on that entity and gets animated over a second before disappearing.
+
+## Health bar
+
+**Duration**: 11 minutes
+
+**What i did**: This one was pretty easy. On the last task (damage numbers) i used the service locator on my own script for the first time and was still checking out how to make it work. This time i just had to do the same as before (mostly). I made a HealthBarView class that had an slider UI element and a text. At the start of the game, when the hero received damage and when the game gets resetted both are updated.
+
+I chose to make this only for the player for two reasons:
+
+1. Doing it for enemies means having a canvas for each, or managing a slider for each enemy on the same screen space canvas, which is doable but the depth makes it difficult to make it look good.
+2. Knowing how much life do you have means a lot for the player. You can plan, you stress out when receive a lot of damage, you have great feedback of how well you are doing. Having it for enemies means knowing how many hits do you need to kill them, and even that is easy without the sliders. Would make a lot more sense for some boss enemy with a lot of life, and in that case the boss life would probably be in the screen space UI, like the player.
+
+**Result**: A green/red slider bar on top of the screen is updated showing less green and more red the more damage you take. A text inside tells you exactly how much health do you have.
