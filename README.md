@@ -1,5 +1,17 @@
 # hiring_game_dev_case-variation-feel
 
+## Table of contents
+
+1. [External assets](#external-libraries-or-assets-used)
+2. [Bugs](#bugs)
+3. [About task times](#about-task-times)
+4. [Thought process](#thought-process)
+5. [Improvements and feedbacks](#improvements-and-feedbacks)
+6. [Tweaks](#tweaks)
+7. [Future work](#future-work)
+8. [Base project feedback](#base-project-feedback)
+9. [The end](#the-end)
+
 ## External libraries or assets used
 
 I will keep this section first and will be updating with the added libraries or asset packs.
@@ -10,7 +22,7 @@ I will keep this section first and will be updating with the added libraries or 
 - [**Quick Outline**](https://assetstore.unity.com/packages/tools/particles-effects/quick-outline-115488): To show which enemy is being currently targeted. (Inside Enemies folder)
 - [**Epic Toon FX**](https://assetstore.unity.com/packages/package/143691): For the smoke trail when walking. (Inside Epic Toon FX folder)
 
-## Bugs and other things to note
+## Bugs
 
 - When an enemy spawn, it is sometimes attacked by the player like it was close, even if it spawns at 10 meters from the player.
 Not sure why this happens, but you can sometimes see the player doing the attack animation in the air. This happens even with the initial project. (FIXED: It was a race condition that made the enemies start spawning before the container view subscribed to the OnEnemySpawned event, so it didn't instantiate any view. I moved the delay on the loop to the start, so it had an starting delay before spawning the first enemy. Not ideal, it would need a new entry point, but i didn't want to change the architecture right now for this)
@@ -46,7 +58,9 @@ After checking the list i don't think i will be able to implement all, but i wil
 
 I will then log in this readme each feature I added, how i added and how much time it took to implement it.
 
-## Player animations
+## Improvements and feedbacks
+
+### Player animations
 
 **Duration**: 14 minutes
 
@@ -56,7 +70,7 @@ I will then log in this readme each feature I added, how i added and how much ti
 
 **Update**: While doing enemy animations I noticed that the game reset doesn't spawn the player again. So i fixed the animator to transition from dead to idle.
 
-## Enemy animations
+### Enemy animations
 
 **Duration**: 25 minutes
 
@@ -68,7 +82,7 @@ I also was supposed to improve the death animation making enemies disappear afte
 
 **Update**: Added time to disappear to enemy config scriptable object.
 
-## Better animation timing
+### Better animation timing
 
 **Duration**: 15 minutes
 
@@ -85,7 +99,7 @@ What i actually did was increasing the speed of the attacks, removing transition
 
 **Result**: Attack animations are now faster and snappier, and will make future feedback easier to implement and appreciate. Damage animations are now muted.
 
-## Hit VFX feedback
+### Hit VFX feedback
 
 **Duration**: 15 minutes
 
@@ -97,7 +111,7 @@ It took longer than expected because a bug made the player attack in the air and
 
 **Result**: At the time of receiving damage, player and enemies play a particle system hit effect.
 
-## Damage numbers
+### Damage numbers
 
 **Duration**: 37 minutes
 
@@ -111,7 +125,7 @@ This had a lot of thought on optimization. My first idea was to put a world spac
 
 **Result**: Whenever an entity takes damage, a small damage number pops up on that entity and gets animated over a second before disappearing.
 
-## Health bar
+### Health bar
 
 **Duration**: 11 minutes
 
@@ -124,7 +138,7 @@ I chose to make this only for the player for two reasons:
 
 **Result**: A green/red slider bar on top of the screen is updated showing less green and more red the more damage you take. A text inside tells you exactly how much health do you have.
 
-## Targeted enemy indicator
+### Targeted enemy indicator
 
 **Duration** 39 minutes
 
@@ -135,7 +149,7 @@ To do that, i added the weapon service reference to the **EnemiesController**, a
 
 **Result**: A red outline appears on the enemy that is currently being attacked, gets removed if the closest enemy changes or if the enemy dies.
 
-## Rotate in direction of enemy
+### Rotate in direction of enemy
 
 **Duration**: 3 minutes
 
@@ -143,7 +157,7 @@ To do that, i added the weapon service reference to the **EnemiesController**, a
 
 **Result**: The hero rotates instantly to the enemy she is attacking.
 
-## Sword trail
+### Sword trail
 
 **Duration**: 24 minutes
 
@@ -157,7 +171,7 @@ That's why i created a "WeaponController", which just wraps the Config and has a
 
 **Result**: A subtle trail shows up when swinging the sword.
 
-## Clouds trail
+### Clouds trail
 
 **Duration**: 2 minutes
 
@@ -169,7 +183,7 @@ There should be considerations about this if Alice could move in other ways (tel
 
 **Result**: A smoke trail appears on the ground while moving.
 
-## What i didn't do
+### What i didn't do
 
 Well, i reached a point on which i would exceed the expected time for this task, and i think i got the most important things, plus a few extras. I will tweak a little the numbers of the game now, so expect to reach that 4 hours deadline with that if i didn't already.
 
