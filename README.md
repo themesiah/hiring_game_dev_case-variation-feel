@@ -133,3 +133,11 @@ To do that, i added the weapon service reference to the **EnemiesController**, a
 **Note**: To avoid the outline and the actual attack to differ on which enemy is being attacked, I changed the "TryFindClosestEnemy" from HeroController to use the found enemy on EnemiesController.
 
 **Result**: A red outline appears on the enemy that is currently being attacked, gets removed if the closest enemy changes or if the enemy dies.
+
+## Rotate in direction of enemy
+
+**Duration**: 3 minutes
+
+**What i did**: I put a new variable on the HeroState (position attacked) that stores the position of the last attack done. So in the view, when the hero attacks, it gets the position and rotates instantly on the direction. If moving, it still rotates as before. There were several ways to do this (architecture wise) like reading the enemies controller service from the hero view, but this seemed reasonable and easy enough.
+
+**Result**: The hero rotates instantly to the enemy she is attacking.

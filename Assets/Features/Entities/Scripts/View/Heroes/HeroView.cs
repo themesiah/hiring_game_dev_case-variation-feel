@@ -89,6 +89,10 @@ namespace Game.GamePlay.Heroes
 				if (heroState.LastAttackTime > previousState.LastAttackTime)
 				{
 					animator.SetTrigger(AttackHash);
+					// Set rotation to where is attacking
+					Vector3 attackDirection = -(heroState.AttackToPosition - heroState.Position).normalized;
+					Quaternion targetRotation = Quaternion.LookRotation(attackDirection);
+					transform.rotation = targetRotation;
 				}
 				else if (heroState.Health < previousState.Health)
 				{

@@ -33,7 +33,7 @@ namespace Game.GamePlay.Heroes
 			_joystickInputService = joystickInputService;
 			_weaponsService = weaponsService;
 
-			_currentState = new HeroState(Vector3.zero, HeroConfig.Instance.InitialHealth, 0f);
+			_currentState = new HeroState(Vector3.zero, HeroConfig.Instance.InitialHealth, 0f, Vector3.zero);
 			_cancellationTokenSource = new CancellationTokenSource();
 
 			UpdateLoop(_cancellationTokenSource.Token).Forget();
@@ -47,7 +47,7 @@ namespace Game.GamePlay.Heroes
 
 			int newHealth = Mathf.Max(0, _currentState.Health - damage);
 			Debug.Log($"Hero is taking a hit. Health : {_currentState.Health} -> {newHealth}");
-			_currentState = new HeroState(_currentState.Position, newHealth, _currentState.LastAttackTime);
+			_currentState = new HeroState(_currentState.Position, newHealth, _currentState.LastAttackTime, _currentState.AttackToPosition);
 			OnStateChanged?.Invoke(_currentState);
 			OnHeroDamaged?.Invoke(damage);
 
@@ -59,7 +59,7 @@ namespace Game.GamePlay.Heroes
 
 		public void Restart()
 		{
-			_currentState = new HeroState(Vector3.zero, HeroConfig.Instance.InitialHealth, 0f);
+			_currentState = new HeroState(Vector3.zero, HeroConfig.Instance.InitialHealth, 0f, Vector3.zero);
 			OnStateChanged?.Invoke(_currentState);
 			OnHeroRestarted?.Invoke();
 		}
@@ -93,7 +93,7 @@ namespace Game.GamePlay.Heroes
 			Vector3 movement = new Vector3(-currentMovementInput.x, 0f, -currentMovementInput.y);
 			Vector3 newPosition = _currentState.Position + movement * (HeroConfig.Instance.MoveSpeed * Time.deltaTime);
 
-			_currentState = new HeroState(newPosition, _currentState.Health, _currentState.LastAttackTime);
+			_currentState = new HeroState(newPosition, _currentState.Health, _currentState.LastAttackTime, _currentState.AttackToPosition);
 			OnStateChanged?.Invoke(_currentState);
 		}
 
@@ -105,8 +105,9 @@ namespace Game.GamePlay.Heroes
 			if (TryFindClosestEnemy(out EnemyState closestEnemy))
 			{
 				_enemiesController.AttackEnemy(closestEnemy, _weaponsService.CurrentWeapon.Damage);
-				_currentState = new HeroState(_currentState.Position, _currentState.Health, Time.time);
+				_currentState = new HeroState(_currentState.Position, _currentState.Health, Time.time, closestEnemy.Position);
 				OnStateChanged?.Invoke(_currentState);
+				_weaponsService.CurrentWeapon.
 			}
 		}
 

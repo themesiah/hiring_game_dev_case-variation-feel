@@ -141,7 +141,7 @@ namespace Game.GamePlay.Enemies
 					continue;
 				}
 
-				var attackRange = _weaponsService.CurrentWeapon.Range;
+				var attackRange = _weaponsService.CurrentWeapon != null ? _weaponsService.CurrentWeapon.Range : 0f;
 				float closestEnemyDistance = attackRange;
 				if (_closestEnemyId != -1 && _enemies.TryGetValue(_closestEnemyId, out EnemyState closestEnemy))
 				{
