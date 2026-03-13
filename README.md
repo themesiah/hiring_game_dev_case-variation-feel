@@ -204,3 +204,19 @@ Besides the already talked audio, i think the game will benefit from adding more
 I also noticed while doing the last playtests that there isn't any way to measure how good is the player. A points counter would've been good too, and maybe would've been prioritary, but i didn't think about that until late. It's true too that after adding all features i did tweak some things, and after those tweaks a few more features are "unlocked" to be developed, so i think there just wasn't enough time.
 
 Also a custom toon shader and a little tweak to the game illumination would do wonders. Again, not enough time for all.
+
+## Base project feedback
+
+I think overall is a good project to work on.
+
+An architecture based on a well-known pattern without explanation is a good way to catch people off-guard, but actually super useful and complete when understood.
+
+A bug made me lose more time than i would have wanted (the race condition between EnemiesController and EnemiesContainerView, explained before) and i do think that should be fixed, unless that bug was part of the test.
+
+Not having any guidance on what to tackle first is good too, and i actually have doubts on some things after finishing (should i have done a custom shader? adding some post processing? something cool to show off even if not that important in terms of UX?), but after re-reading my reasonements i'm still convinced that i took the correct path, even if a little conservative.
+
+Also, some readme of how the game is supposed to work would have been nice. I was pretty confused at first. It actually gets clear after adding some feedback, and somehow i think that was a nice part of the test, because i knew i was doing it right because the game became more understandable.
+
+## The end
+
+Well, sorry about the loooong read. I like writing. And i guess i will explain most of those things during the review, but i hope the insights i put here are well received. See ya!
