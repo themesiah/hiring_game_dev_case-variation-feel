@@ -89,12 +89,11 @@ namespace Game.GamePlay.Enemies
 		{
 			while (!cancellationToken.IsCancellationRequested)
 			{
+				await UniTask.Delay(TimeSpan.FromSeconds(EnemiesConfig.Instance.SpawnInterval), cancellationToken: cancellationToken);
 				if (!_heroController.CurrentState.IsDead && _enemies.Count < EnemiesConfig.Instance.MaxEnemies)
 				{
 					SpawnEnemy();
 				}
-
-				await UniTask.Delay(TimeSpan.FromSeconds(EnemiesConfig.Instance.SpawnInterval), cancellationToken: cancellationToken);
 			}
 		}
 

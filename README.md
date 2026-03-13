@@ -8,6 +8,11 @@ I will keep this section first and will be updating with the added libraries or 
 - [**Free quick effects vol 1**](https://assetstore.unity.com/packages/vfx/particles/free-quick-effects-vol-1-304424): For various effects. I might take effects and slightly modify them to work as we need. (Inside folder GabrielAguiarProductions)
 - [**Cartoon FX Remaster free](https://assetstore.unity.com/packages/vfx/particles/cartoon-fx-remaster-free-109565): For various effects. I might take effects and slightly modify them to work as we need. (Inside folder JMO Assets)
 
+## Bugs and other things to note
+
+- When an enemy spawn, it is sometimes attacked by the player like it was close, even if it spawns at 10 meters from the player.
+Not sure why this happens, but you can sometimes see the player doing the attack animation in the air. This happens even with the initial project. (FIXED: It was a race condition that made the enemies start spawning before the container view subscribed to the OnEnemySpawned event, so it didn't instantiate any view. I moved the delay on the loop to the start, so it had an starting delay before spawning the first enemy. Not ideal, it would need a new entry point, but i didn't want to change the architecture right now for this)
+
 ## Thought process
 
 Before even starting changing things, I checked the project and made a list of elements that would be cool to change, improve or create from scratch.
@@ -79,5 +84,7 @@ What i actually did was increasing the speed of the attacks, removing transition
 **What i did**: First, I selected two "hit" vfx from some free VFX pack i found. I then put the sword hit vfx on the enemies and the enemy hit vfx on the player (because the player is hit by the enemies and the enemies are hit by the sword). I added a reference to the particle systems on the view, and when being hit (already done thanks to the "previous state" trick) I play the particle system. Note that this is a naive approach and i know it. If we expect different hit effects from different enemies or weapons this way of doing things does not work. However, this is fast and gives good results when prototyping.
 
 If needed, I guess enemies should get the weapon from the weapon service and spawn a particle system offered by the weapon. For the player is a little more difficult, because we would need the exact enemy that hit her, and spawn a particle system depending on that. Anyway, I think this is good enough for now.
+
+It took longer than expected because a bug made the player attack in the air and thought this was from my implementation.
 
 **Result**: At the time of receiving damage, player and enemies play a particle system hit effect.
