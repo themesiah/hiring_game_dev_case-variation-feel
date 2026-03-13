@@ -8,6 +8,7 @@ I will keep this section first and will be updating with the added libraries or 
 - [**Free quick effects vol 1**](https://assetstore.unity.com/packages/vfx/particles/free-quick-effects-vol-1-304424): For various effects. I might take effects and slightly modify them to work as we need. (Inside folder GabrielAguiarProductions)
 - [**Cartoon FX Remaster free](https://assetstore.unity.com/packages/vfx/particles/cartoon-fx-remaster-free-109565): For various effects. I might take effects and slightly modify them to work as we need. (Inside folder JMO Assets)
 - [**Quick Outline**](https://assetstore.unity.com/packages/tools/particles-effects/quick-outline-115488): To show which enemy is being currently targeted. (Inside Enemies folder)
+- [**Epic Toon FX**](https://assetstore.unity.com/packages/package/143691): For the smoke trail when walking. (Inside Epic Toon FX folder)
 
 ## Bugs and other things to note
 
@@ -141,3 +142,27 @@ To do that, i added the weapon service reference to the **EnemiesController**, a
 **What i did**: I put a new variable on the HeroState (position attacked) that stores the position of the last attack done. So in the view, when the hero attacks, it gets the position and rotates instantly on the direction. If moving, it still rotates as before. There were several ways to do this (architecture wise) like reading the enemies controller service from the hero view, but this seemed reasonable and easy enough.
 
 **Result**: The hero rotates instantly to the enemy she is attacking.
+
+## Sword trail
+
+**Duration**: 24 minutes
+
+**What i did**: I wanted to put a trail on the sword, so it looked cool when swinging. With only the trail it looked cool, but was always there, even when not attacking, and i didn't like that.
+
+I needed to know when the weapon was actually attacking, but couldn't use the hero controller from the weapon, as the weapons are not supposed to know about heroes (this is an architecture decision that is not mine. I checked how the entities asmdef had dependencies with the weapons, and so weapons could not have dependencies with the entities).
+
+The solution was inversion of control, but the only place i could put a method and event for the weapon view to check out was in the weapon config, and i didn't want to put logic on an scriptable object.
+
+That's why i created a "WeaponController", which just wraps the Config and has an "Attack" method, which triggers the event, which is listened by the weapon view. I hope this was right to do, even if the assignment specified only to add feedback to the game, but i felt that this was needed!
+
+**Result**: A subtle trail shows up when swinging the sword.
+
+## Clouds trail
+
+**Duration**: 2 minutes
+
+**What i did**: There was an effect i used on other games of a white trail of smoke that worked on world space. That means that as long as it is moving, it will generate the trail. So it has been as easy as putting the prefab on Alice's feet.
+
+There should be considerations about this if Alice could move in other ways (teleport, being pushed...). But hey, it works fine like this.
+
+**Result**: A smoke trail appears on the ground while moving.

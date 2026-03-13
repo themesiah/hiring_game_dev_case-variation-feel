@@ -100,14 +100,14 @@ namespace Game.GamePlay.Heroes
 		private void AttackClosestEnemy()
 		{
 			if (_weaponsService.CurrentWeapon == null) return;
-			if (Time.time - _currentState.LastAttackTime < _weaponsService.CurrentWeapon.Cooldown) return;
+			if (Time.time - _currentState.LastAttackTime < _weaponsService.CurrentWeapon.Config.Cooldown) return;
 
 			if (TryFindClosestEnemy(out EnemyState closestEnemy))
 			{
-				_enemiesController.AttackEnemy(closestEnemy, _weaponsService.CurrentWeapon.Damage);
+				_enemiesController.AttackEnemy(closestEnemy, _weaponsService.CurrentWeapon.Config.Damage);
 				_currentState = new HeroState(_currentState.Position, _currentState.Health, Time.time, closestEnemy.Position);
 				OnStateChanged?.Invoke(_currentState);
-				_weaponsService.CurrentWeapon.
+				_weaponsService.CurrentWeapon.Attack();
 			}
 		}
 

@@ -138,7 +138,7 @@ namespace Game.GamePlay.Heroes
 			animator.SetFloat(SpeedHash, speed);
 		}
 
-		private void OnWeaponChanged(WeaponConfig newWeapon)
+		private void OnWeaponChanged(WeaponController newWeapon)
 		{
 			if (_currentWeaponView != null)
 			{
@@ -154,7 +154,7 @@ namespace Game.GamePlay.Heroes
 			if (_weaponsService.CurrentWeapon == null) return;
 
 			Transform parent = weaponSlot != null ? weaponSlot : transform;
-			_currentWeaponView = Instantiate(_weaponsService.CurrentWeapon.Prefab, parent);
+			_currentWeaponView = Instantiate(_weaponsService.CurrentWeapon.Config.Prefab, parent);
 			_currentWeaponView.transform.localPosition = Vector3.zero;
 			_currentWeaponView.transform.localRotation = Quaternion.identity;
 		}

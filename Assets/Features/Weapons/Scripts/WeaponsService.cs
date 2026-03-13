@@ -8,15 +8,15 @@ namespace Game.Weapons
 	{
 		public Type[] GetDependencies() => null;
 
-		public WeaponConfig CurrentWeapon { get; private set; }
+		public WeaponController CurrentWeapon { get; private set; }
 
-		public event Action<WeaponConfig> OnWeaponChanged;
+		public event Action<WeaponController> OnWeaponChanged;
 
 		public UniTask<bool> Initialize()
 		{
 			if (WeaponsConfig.Instance.Weapons.Count > 0)
 			{
-				CurrentWeapon = WeaponsConfig.Instance.Weapons[0];
+				CurrentWeapon = new WeaponController(WeaponsConfig.Instance.Weapons[0]);
 			}
 
 			return UniTask.FromResult(true);
@@ -34,7 +34,7 @@ namespace Game.Weapons
 
 			if (newWeapon == null) return false;
 
-			CurrentWeapon = newWeapon;
+			CurrentWeapon = new WeaponController(newWeapon);
 			OnWeaponChanged?.Invoke(CurrentWeapon);
 
 			return true;
