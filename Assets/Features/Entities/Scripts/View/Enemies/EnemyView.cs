@@ -16,9 +16,12 @@ namespace Game.GamePlay.Enemies
 		[SerializeField] private float rotationSpeed = 10f;
 		[SerializeField] private Animator animator;
 		[SerializeField] private ParticleSystem damageEffect;
+		[SerializeField] private Outline outline;
 
 		private HeroController _heroController;
 		private EnemyState? _lastEnemyState = null;
+
+		public Outline Outline => outline;
 
 		private void Start()
 		{
@@ -49,6 +52,7 @@ namespace Game.GamePlay.Enemies
 				{
 					animator.SetTrigger(DamageHash);
 					damageEffect.Play();
+					outline.enabled = false;
 				}
 
 				animator.SetBool(DeadHash, enemyState.IsDead);

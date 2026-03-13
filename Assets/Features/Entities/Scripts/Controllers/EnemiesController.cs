@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Game.GamePlay.Heroes;
+using Game.Weapons;
 using UnityEngine;
 
 namespace Game.GamePlay.Enemies
@@ -10,12 +11,14 @@ namespace Game.GamePlay.Enemies
 	public class EnemiesController
 	{
 		private HeroController _heroController;
+		private WeaponsService _weaponsService;
 
 		// Events
 		public event Action<EnemyState> OnEnemySpawned;
 		public event Action<int, float> OnEnemyRemoved;
 		public event Action<EnemyState> OnEnemyUpdated;
 		public event Action<int, int> OnEnemyDamaged;
+		public event Action<int, int> OnClosestEnemyChanged;
 
 		// State
 		private Dictionary<int, EnemyState> _enemies;
@@ -23,13 +26,18 @@ namespace Game.GamePlay.Enemies
 		private int _nextEnemyId;
 
 		public IReadOnlyDictionary<int, EnemyState> Enemies => _enemies;
+		private int _closestEnemyId;
 
-		public UniTask<bool> Initialize(HeroController heroController)
+		public int ClosestEnemyId => _closestEnemyId;
+
+		public UniTask<bool> Initialize(HeroController heroController, WeaponsService weaponsService)
 		{
 			_heroController = heroController;
+			_weaponsService = weaponsService;
 
 			_enemies = new Dictionary<int, EnemyState>();
 			_nextEnemyId = 0;
+			_closestEnemyId = -1;
 			_cancellationTokenSource = new CancellationTokenSource();
 
 			SpawnLoop(_cancellationTokenSource.Token).Forget();
@@ -133,6 +141,15 @@ namespace Game.GamePlay.Enemies
 					continue;
 				}
 
+				var attackRange = _weaponsService.CurrentWeapon.Range;
+				float closestEnemyDistance = attackRange;
+				if (_closestEnemyId != -1 && _enemies.TryGetValue(_closestEnemyId, out EnemyState closestEnemy))
+				{
+					closestEnemyDistance = Mathf.Min(closestEnemyDistance, Vector3.Distance(closestEnemy.Position, _heroController.CurrentState.Position));
+				}
+
+				int lastClosestEnemy = _closestEnemyId;
+				_closestEnemyId = -1;
 				List<int> enemiesToUpdate = new List<int>(_enemies.Keys);
 				for (int i = 0; i < enemiesToUpdate.Count; i++)
 				{
@@ -141,6 +158,19 @@ namespace Game.GamePlay.Enemies
 					if (enemy.IsDead) continue; // Don't update dead enemies
 
 					UpdateEnemy(enemy);
+					// Updates which enemy is closest if in range
+					var distance = Vector3.Distance(enemy.Position, _heroController.CurrentState.Position);
+					if (!enemy.IsDead && distance < closestEnemyDistance)
+					{
+						_closestEnemyId = enemyId;
+						closestEnemyDistance = distance;
+					}
+				}
+
+				if (lastClosestEnemy != _closestEnemyId)
+				{
+					// Logic to handle the change in closest enemy
+					OnClosestEnemyChanged?.Invoke(lastClosestEnemy, _closestEnemyId);
 				}
 
 				await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);

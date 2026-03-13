@@ -49,6 +49,7 @@ MonoBehaviour:
   rotationSpeed: 10
   animator: {fileID: 6926839794853975167}
   damageEffect: {fileID: 9181125156221540148}
+  outline: {fileID: 3378730224686088488}
 --- !u!1 &6926839794863368101
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6926839794863012757}
   - component: {fileID: 6926839794849704639}
+  - component: {fileID: 3378730224686088488}
   m_Layer: 8
   m_Name: Beez
   m_TagString: Untagged
@@ -402,6 +404,24 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0.060567804, z: 0.00054588914}
     m_Extent: {x: 0.39729437, y: 0.27043414, z: 0.19177926}
   m_DirtyAABB: 0
+--- !u!114 &3378730224686088488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6926839794863368117}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0, b: 0.009137154, a: 1}
+  outlineWidth: 4
+  precomputeOutline: 1
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &6926839794863368119
 GameObject:
   m_ObjectHideFlags: 0

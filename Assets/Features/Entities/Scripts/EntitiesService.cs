@@ -24,7 +24,7 @@ namespace Game.GamePlay.Entities
 			HeroController = new HeroController();
 
 			await HeroController.Initialize(EnemiesController, joystickInputService, weaponsService);
-			await EnemiesController.Initialize(HeroController);
+			await EnemiesController.Initialize(HeroController, weaponsService);
 
 			return true;
 		}

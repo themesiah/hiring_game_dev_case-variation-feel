@@ -23,6 +23,7 @@ namespace Game.GamePlay.Enemies
 			_enemiesController.OnEnemySpawned += OnEnemySpawned;
 			_enemiesController.OnEnemyRemoved += OnEnemyRemoved;
 			_enemiesController.OnEnemyUpdated += OnEnemyUpdated;
+			_enemiesController.OnClosestEnemyChanged += OnClosestEnemyChanged;
 		}
 
 		private void OnEnemySpawned(EnemyState enemyState)
@@ -59,6 +60,16 @@ namespace Game.GamePlay.Enemies
 			}
 		}
 
+		private void OnClosestEnemyChanged(int lastClosestEnemy, int newClosestEnemy)
+		{
+			// Handle the change in closest enemy
+			Debug.Log($"Closest enemy changed from {lastClosestEnemy} to {newClosestEnemy}");
+			if (_enemyViews.TryGetValue(lastClosestEnemy, out EnemyView lastClosestEnemyView))
+				lastClosestEnemyView.Outline.enabled = false;
+			if (_enemyViews.TryGetValue(newClosestEnemy, out EnemyView newClosestEnemyView))
+				newClosestEnemyView.Outline.enabled = true;
+		}
+
 		private void OnDestroy()
 		{
 			ServicesLocator.Instance.OnAllServicesInitialized -= OnServicesInitialized;
@@ -67,6 +78,7 @@ namespace Game.GamePlay.Enemies
 				_enemiesController.OnEnemySpawned -= OnEnemySpawned;
 				_enemiesController.OnEnemyRemoved -= OnEnemyRemoved;
 				_enemiesController.OnEnemyUpdated -= OnEnemyUpdated;
+				_enemiesController.OnClosestEnemyChanged -= OnClosestEnemyChanged;
 			}
 		}
 	}

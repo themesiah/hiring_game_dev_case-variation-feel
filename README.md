@@ -7,6 +7,7 @@ I will keep this section first and will be updating with the added libraries or 
 - **DoTween**: For general feedback of things with an start and an end. (Inside folder Plugins/Demigiant)
 - [**Free quick effects vol 1**](https://assetstore.unity.com/packages/vfx/particles/free-quick-effects-vol-1-304424): For various effects. I might take effects and slightly modify them to work as we need. (Inside folder GabrielAguiarProductions)
 - [**Cartoon FX Remaster free](https://assetstore.unity.com/packages/vfx/particles/cartoon-fx-remaster-free-109565): For various effects. I might take effects and slightly modify them to work as we need. (Inside folder JMO Assets)
+- [**Quick Outline**](https://assetstore.unity.com/packages/tools/particles-effects/quick-outline-115488): To show which enemy is being currently targeted. (Inside Enemies folder)
 
 ## Bugs and other things to note
 
@@ -115,3 +116,14 @@ I chose to make this only for the player for two reasons:
 2. Knowing how much life do you have means a lot for the player. You can plan, you stress out when receive a lot of damage, you have great feedback of how well you are doing. Having it for enemies means knowing how many hits do you need to kill them, and even that is easy without the sliders. Would make a lot more sense for some boss enemy with a lot of life, and in that case the boss life would probably be in the screen space UI, like the player.
 
 **Result**: A green/red slider bar on top of the screen is updated showing less green and more red the more damage you take. A text inside tells you exactly how much health do you have.
+
+## Targeted enemy indicator
+
+**Duration** 39 minutes
+
+**What i did**: If the only thing the player can do is move, they have to know what consecuences their movement have. And the only two consecuences are that you stop attacking (already done with animations) and which enemy is closest to you (so, which one you attack). What i did was highligting the currently closest enemy, or the one the hero is going to attack.
+To do that, i added the weapon service reference to the **EnemiesController**, and in the update, I check the distance between each enemy with the player. And the one closest (if closer than the weapon range, that's why we have the service here) gets set as current closest enemy. If it is different than the last closest enemy, we send an event changing the current closest, which is received by **EnemiesContainerView** and enables/disables the outline from the **Quick Outline** package.
+
+**Note**: To avoid the outline and the actual attack to differ on which enemy is being attacked, I changed the "TryFindClosestEnemy" from HeroController to use the found enemy on EnemiesController.
+
+**Result**: A red outline appears on the enemy that is currently being attacked, gets removed if the closest enemy changes or if the enemy dies.

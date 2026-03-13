@@ -112,7 +112,14 @@ namespace Game.GamePlay.Heroes
 
 		private bool TryFindClosestEnemy(out EnemyState closestEnemy)
 		{
+			if (_enemiesController.ClosestEnemyId != -1 && _enemiesController.Enemies.TryGetValue(_enemiesController.ClosestEnemyId, out closestEnemy))
+			{
+				return true;
+			}
 			closestEnemy = default;
+			return false;
+
+			/*closestEnemy = default;
 			if (_weaponsService.CurrentWeapon == null) return false;
 			float closestDistance = _weaponsService.CurrentWeapon.Range;
 			bool found = false;
@@ -130,7 +137,7 @@ namespace Game.GamePlay.Heroes
 				}
 			}
 
-			return found;
+			return found;*/
 		}
 	}
 }
