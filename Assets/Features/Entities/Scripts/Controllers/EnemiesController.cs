@@ -15,6 +15,7 @@ namespace Game.GamePlay.Enemies
 		public event Action<EnemyState> OnEnemySpawned;
 		public event Action<int, float> OnEnemyRemoved;
 		public event Action<EnemyState> OnEnemyUpdated;
+		public event Action<int, int> OnEnemyDamaged;
 
 		// State
 		private Dictionary<int, EnemyState> _enemies;
@@ -72,6 +73,7 @@ namespace Game.GamePlay.Enemies
 			Debug.Log($"Attacked enemy id°{enemyState.Id}. Health : {enemyState.Health} -> {newHealth}");
 
 			EnemyState updatedEnemy = new EnemyState(enemyState.Id, enemyState.Position, newHealth, enemyState.Config);
+			OnEnemyDamaged?.Invoke(enemyState.Id, damage);
 			if (newHealth <= 0)
 			{
 				Debug.Log($"Enemy id°{enemyState.Id} is dead. Removing it.");

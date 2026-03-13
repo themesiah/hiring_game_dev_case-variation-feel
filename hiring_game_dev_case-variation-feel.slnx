@@ -1,0 +1,17 @@
+﻿<Solution>
+  <Project Path="CFXREditor.csproj" />
+  <Project Path="Game.JoystickInput.csproj" />
+  <Project Path="CFXRRuntime.csproj" />
+  <Project Path="Game.Weapons.csproj" />
+  <Project Path="CFXR.WelcomeScreen.csproj" />
+  <Project Path="DOTween.Modules.csproj" />
+  <Project Path="Game.Entities.csproj" />
+  <Project Path="Core.ScriptableObjectSingleton.csproj" />
+  <Project Path="CFXRDemo.csproj" />
+  <Project Path="Game.World.csproj" />
+  <Project Path="ToonyColorsPro.Demo.Editor.csproj" />
+  <Project Path="Core.ServicesManager.csproj" />
+  <Project Path="Game.UI.csproj" />
+  <Project Path="Game.Biomes.csproj" />
+  <Project Path="KinoBloom.Runtime.csproj" />
+</Solution>

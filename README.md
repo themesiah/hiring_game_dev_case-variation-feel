@@ -88,3 +88,17 @@ If needed, I guess enemies should get the weapon from the weapon service and spa
 It took longer than expected because a bug made the player attack in the air and thought this was from my implementation.
 
 **Result**: At the time of receiving damage, player and enemies play a particle system hit effect.
+
+## Damage numbers
+
+**Duration**: 37 minutes
+
+**What i did**: I've seen that there are several types of weapon prepared, even if currently only the greatsword is being used. When I play a game with several equipment pieces, I want to feel powerful when I update to a better weapon. And numbers are one way to show that directly. Looking at other Madbox games, the Idle Zoo Tycoon does that for the money you get from stands or the entrance tickets. This is the same, with a very similar fashion, but in this case the "currency" is the damage you deal. To implement this i made two new classes: DamageText and DamageTextsView.
+
+DamageText controls itself: it gets initialized with a damage number, a color and an action to release it when finished and then gets animated, going up and fading. After fading, it calls the release callback. It gets animated with two tweens using DoTween. DoTween is in safe mode, so if anything happens and the damage text gets destroyed before finishing, there shouldn't be any issue.
+
+DamageTextsView gets the Hero and Enemies services, hears for the "damaged" events of each (events i added doing this task too) and gets a DamageText from an object pool (amount of texts can escalate pretty quickly depending on duration, weapon cooldown, amount of enemies...), puts the DamageText on a point in the screen where the damage was done and initializes it. It initializes the text with the damage number, a color (red if the player was damaged, white if the enemy was damaged) and the pool callback to release the instance.
+
+This had a lot of thought on optimization. My first idea was to put a world space canvas on each entity and put the damage number there, but if there is a lot of enemies, there will be a lot of canvases, and that could be a performance issue. Or at least, doing it with a single canvas didn't forbid me of anything i wanted to do, so it was directly a better solution. I also made a pool for the texts to avoid garbage collection instantiating and destroying them. Cool, right?
+
+**Result**: Whenever an entity takes damage, a small damage number pops up on that entity and gets animated over a second before disappearing.
