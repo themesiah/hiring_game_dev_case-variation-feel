@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6754638206461141254}
   - component: {fileID: 1804462111697095429}
   - component: {fileID: -8784909212944620507}
+  - component: {fileID: 1729009594969278451}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -73,6 +74,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b3ad241e2cd45898a5f649bfda49baf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1729009594969278451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2286102906312132611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 638f4997ae8a9fe4e8ec218f87bdd236, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pickupPrefabs:
+  - {fileID: 2368307716526858798, guid: ae6e39a570c3f4e47aaf115a9c46e99b, type: 3}
+  - {fileID: 6665831484669096358, guid: de0d01a92c03be1448b59615dc72aa8c, type: 3}
+  - {fileID: -7263004181825828166, guid: 6566628b5091c3f41a6025fc1997718d, type: 3}
 --- !u!1 &7124215502109461477
 GameObject:
   m_ObjectHideFlags: 0

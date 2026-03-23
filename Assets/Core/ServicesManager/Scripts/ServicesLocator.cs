@@ -19,7 +19,7 @@ namespace Core.ServicesManager
 		{
 			add
 			{
-				if(_isInitialized) value?.Invoke();
+				if (_isInitialized) value?.Invoke();
 				else OnAllServicesInitializedInternal += value;
 			}
 			remove => OnAllServicesInitializedInternal -= value;

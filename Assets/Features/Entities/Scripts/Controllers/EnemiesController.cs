@@ -19,8 +19,7 @@ namespace Game.GamePlay.Enemies
 		public event Action<EnemyState> OnEnemyUpdated;
 		public event Action<int, int> OnEnemyDamaged;
 		public event Action<int, int> OnClosestEnemyChanged;
-
-		// State
+		public event Action<Vector3, Game.Weapons.WeaponConfig> OnWeaponDropped;        // State
 		private Dictionary<int, EnemyState> _enemies;
 		private CancellationTokenSource _cancellationTokenSource;
 		private int _nextEnemyId;
@@ -85,6 +84,17 @@ namespace Game.GamePlay.Enemies
 			if (newHealth <= 0)
 			{
 				Debug.Log($"Enemy id°{enemyState.Id} is dead. Removing it.");
+
+				// Check for weapon drop
+				if (ShouldDropWeapon())
+				{
+					Game.Weapons.WeaponConfig droppedWeapon = SelectWeaponToDrop();
+					if (droppedWeapon != null)
+					{
+						OnWeaponDropped?.Invoke(enemyState.Position, droppedWeapon);
+					}
+				}
+
 				OnEnemyUpdated?.Invoke(updatedEnemy);
 				RemoveEnemy(enemyState.Id, updatedEnemy.Config.TimeToDisappear);
 			}
@@ -94,7 +104,6 @@ namespace Game.GamePlay.Enemies
 				OnEnemyUpdated?.Invoke(updatedEnemy);
 			}
 		}
-
 		private async UniTaskVoid SpawnLoop(CancellationToken cancellationToken)
 		{
 			while (!cancellationToken.IsCancellationRequested)
@@ -202,6 +211,23 @@ namespace Game.GamePlay.Enemies
 					OnEnemyUpdated?.Invoke(updatedEnemy);
 				}
 			}
+		}
+
+		private bool ShouldDropWeapon()
+		{
+			return UnityEngine.Random.value <= EnemiesConfig.Instance.WeaponDropChance;
+		}
+
+		private Game.Weapons.WeaponConfig SelectWeaponToDrop()
+		{
+			if (_weaponsService == null || _weaponsService.CurrentWeapon == null)
+				return null;
+
+			Game.Weapons.WeaponConfig[] available = _weaponsService.GetAvailableWeaponsExcept(_weaponsService.CurrentWeapon.Config);
+			if (available.Length == 0)
+				return null;
+
+			return available[UnityEngine.Random.Range(0, available.Length)];
 		}
 	}
 }

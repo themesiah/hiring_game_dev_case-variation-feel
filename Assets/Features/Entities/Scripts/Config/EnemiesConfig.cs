@@ -20,15 +20,19 @@ namespace Game.GamePlay.Enemies
 		private int maxEnemies = 20;
 
 		[SerializeField]
+		[Range(0f, 1f)]
+		[Tooltip("Chance (0-1) that an enemy drops a weapon when killed")]
+		private float weaponDropChance = 0.3f;
+
+		[SerializeField]
 		[Tooltip("List of all available enemies in the game")]
 		private List<EnemyConfig> enemies;
 
 		public float SpawnInterval => spawnInterval;
 		public float SpawnRadius => spawnRadius;
 		public int MaxEnemies => maxEnemies;
-		public IReadOnlyList<EnemyConfig> Enemies => enemies;
-
-		private Dictionary<string, EnemyConfig> _enemiesMap;
+		public float WeaponDropChance => weaponDropChance;
+		public IReadOnlyList<EnemyConfig> Enemies => enemies; private Dictionary<string, EnemyConfig> _enemiesMap;
 
 		public EnemyConfig GetEnemyById(string enemyId)
 		{
